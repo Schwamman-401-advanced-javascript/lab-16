@@ -15,7 +15,7 @@ describe('logger', () => {
     eventHub.emit('save', savedData);
 
     expect(console.log)
-      .toHaveBeenCalledWith('Saved:', savedData)
+      .toHaveBeenCalledWith('Saved:', savedData);
   });
 
   it('logs error to console if failing to read or write', () => {
