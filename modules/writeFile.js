@@ -2,6 +2,8 @@
 
 const eventHub = require('./eventHub');
 const fs = require('fs');
+const { promisify } = require('util');
+const fileWriter = promisify(fs.writeFile);
 
 /**
  * Writes text to file
@@ -9,10 +11,10 @@ const fs = require('fs');
  * @param {*} text - text to be written to file
  */
 function writeFile(file, text) {
-  fs.writeFile( file, Buffer.from(text), (err, data) => {
-    if(err) { return eventHub.emit('error', 'Unable to write file!'); }
-    eventHub.emit('save', file);
-  });
+  return fileWriter( file, Buffer.from(text))
+    .then(() => {
+      eventHub.emit('save', file);
+    });
 }
 
 module.exports = writeFile;
